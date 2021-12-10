@@ -1,4 +1,4 @@
-import process from 'process'
+import fs from 'fs'
 import puppeteer from 'puppeteer'
 import fetch from 'node-fetch'
 
@@ -8,7 +8,7 @@ import fetch from 'node-fetch'
 	const randomUser = data[Math.floor(Math.random() * data.length)]
 
 	const browser = await puppeteer.launch({
-		headless: false
+		headless: true
 	})
 	const page = await browser.newPage()
 
@@ -31,6 +31,14 @@ import fetch from 'node-fetch'
 	await page.waitForTimeout(8000)
 	await browser.close()
 
-	// Close program
-	process.exit(1)
+	const userContent = `${randomUser.name},${randomUser.email},${randomUser.company.catchPhrase}\n`
+	console.log(userContent)
+	try {
+		fs.appendFile('users/laborRelationsInst.csv', userContent, (err) => {
+			if (err) throw err
+		})
+	}
+	catch (error) {
+		console.error(error)
+	}
 })()

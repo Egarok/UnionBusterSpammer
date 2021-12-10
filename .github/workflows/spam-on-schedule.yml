@@ -15,4 +15,4 @@ jobs:
           node-version: '16.x'
       - run: npm i
       - name: Run Node script
-        run: npm start
+        run: node laborRelationshipsSpammer
